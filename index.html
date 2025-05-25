@@ -20,27 +20,69 @@
       margin-left: 4px;
       color: #aaa;
     }
+    .visualizer-container {
+      position: relative;
+      width: 500px;
+      margin: 0 auto;
+    }
+    .visualizer-controls {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      gap: 40px;
+      z-index: 10;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 20px 40px;
+      border-radius: 30px;
+      backdrop-filter: blur(5px);
+    }
+    .control-button {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 3px solid rgba(255, 255, 255, 0.8);
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    }
+    .control-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+    }
+    .control-button.active {
+      background: #00ffaa;
+      border-color: #00ffaa;
+      box-shadow: 0 0 30px rgba(0, 255, 170, 0.6);
+    }
+    #visualizer {
+      display: block;
+      background: linear-gradient(to bottom, #1a1a2e, #16213e);
+      border-radius: 15px;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+    }
   </style>
 </head>
 <body>
-  <canvas id="visualizer" width="400" height="120"></canvas>
+  <div class="visualizer-container">
+    <canvas id="visualizer" width="500" height="150"></canvas>
+    <div class="visualizer-controls">
+      <button id="start" class="control-button">▶</button>
+      <button id="stop" class="control-button">■</button>
+    </div>
+  </div>
   <div id="display"></div>
   <div class="master-volume-container">
     <label for="master-volume">Master Volume</label>
     <input type="range" id="master-volume" min="0" max="1" step="0.01" value="1" />
-  </div>
-  <div class="controls">
-    <label>BPM: <input type="number" id="bpm" value="120" min="60" max="200" /></label>
-    <button id="start">Start</button>
-    <button id="stop">Stop</button>
-    <label>Effect:
-      <select id="effect">
-        <option value="none">None</option>
-        <option value="lowpass">Low Pass Filter</option>
-        <option value="reverb">Reverb</option>
-        <option value="delay">Delay</option>
-      </select>
-    </label>
   </div>
   <div class="sequencer" id="sequencer"></div>
   <script src="app.js"></script>

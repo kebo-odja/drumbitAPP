@@ -295,14 +295,34 @@ document.getElementById("start").addEventListener("click", () => {
     audioContext.resume();
   }
   
-  const bpm = parseInt(document.getElementById("bpm").value);
+  const startButton = document.getElementById("start");
+  const stopButton = document.getElementById("stop");
+  
+  // Update button states
+  startButton.classList.add("active");
+  stopButton.classList.remove("active");
+  
+  // Set a fixed BPM since we removed the BPM control
+  const bpm = 120;
   const intervalTime = 60000 / bpm / 4; // 16 steps = 4 beats
   interval = setInterval(playStep, intervalTime);
 });
 
 document.getElementById("stop").addEventListener("click", () => {
+  const startButton = document.getElementById("start");
+  const stopButton = document.getElementById("stop");
+  
+  // Update button states
+  startButton.classList.remove("active");
+  stopButton.classList.add("active");
+  
   clearInterval(interval);
   currentStep = 0;
+  
+  // Reset all playing steps
+  document.querySelectorAll(".step").forEach(btn => {
+    btn.classList.remove("playing");
+  });
 });
 
 // Effect selection and display logic
@@ -351,7 +371,7 @@ const ctx = canvas.getContext('2d');
 function drawVisualizer() {
   // Smooth fading effect
   ctx.globalAlpha = 0.6;
-  ctx.fillStyle = '#22232a';
+  ctx.fillStyle = '#1a1a2e';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.globalAlpha = 1.0;
   analyser.getByteFrequencyData(dataArray);
@@ -361,9 +381,9 @@ function drawVisualizer() {
     const barHeight = dataArray[i] * 0.9;
     // Gradient for each bar
     const grad = ctx.createLinearGradient(x, canvas.height - barHeight, x, canvas.height);
-    grad.addColorStop(0, '#fff');
-    grad.addColorStop(0.5, '#ff2222');
-    grad.addColorStop(1, '#800');
+    grad.addColorStop(0, '#00ffaa');
+    grad.addColorStop(0.5, '#00ffff');
+    grad.addColorStop(1, '#0066ff');
     ctx.fillStyle = grad;
     ctx.fillRect(x, canvas.height - barHeight, barWidth - 2, barHeight);
     x += barWidth;
